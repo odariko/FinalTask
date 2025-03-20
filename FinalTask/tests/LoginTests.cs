@@ -3,42 +3,47 @@ using Xunit;
 using FluentAssertions;
 using System.Threading;
 using System;
+using FinalTask.utilities;
+using FinalTask.pages;
 
-public class LoginTests : IDisposable
+namespace FinalTask.tests
 {
-    private IWebDriver _driver;
-    private LoginPage _loginPage;
-    private DashboardPage _dashboardPage;
-
-    [Theory]
-    [MemberData(nameof(TestDataProvider.TestData), MemberType = typeof(TestDataProvider))]
-    public void TestLogin(string username, string password, string expected)
+    public class LoginTests : IDisposable
     {
-        // Arrange
-        _driver = WebDriverFactory.CreateDriver("chrome"); // Use Firefox or Chrome as per requirement
-        _driver.Navigate().GoToUrl("https://www.saucedemo.com/");
-        _loginPage = new LoginPage(_driver);
-        _dashboardPage = new DashboardPage(_driver);
+        private IWebDriver _driver;
+        private LoginPage _loginPage;
+        private DashboardPage _dashboardPage;
 
-        // Act
-        _loginPage.EnterCredentials(username, password);
-        _loginPage.ClickLogin();
-        Thread.Sleep(2000); // Add wait if needed for the page to load
-
-        // Assert
-        if (expected.Contains("required"))
+        [Theory]
+        [MemberData(nameof(TestDataProvider.TestData), MemberType = typeof(TestDataProvider))]
+        public void TestLogin(string username, string password, string expected)
         {
-            var errorMessage = _loginPage.GetErrorMessage();
-            errorMessage.Should().Contain(expected);
-        }
-        else
-        {
-            _dashboardPage.GetTitle().Should().Be(expected);
-        }
-    }
+            // Arrange
+            _driver = WebDriverFactory.CreateDriver("chrome"); // Use Firefox or Chrome as per requirement
+            _driver.Navigate().GoToUrl("https://www.saucedemo.com/");
+            _loginPage = new LoginPage(_driver);
+            _dashboardPage = new DashboardPage(_driver);
 
-    public void Dispose()
-    {
-        _driver.Quit();
+            // Act
+            _loginPage.EnterCredentials(username, password);
+            _loginPage.ClickLogin();
+            Thread.Sleep(2000); // Add wait if needed for the page to load
+
+            // Assert
+            if (expected.Contains("required"))
+            {
+                var errorMessage = _loginPage.GetErrorMessage();
+                errorMessage.Should().Contain(expected);
+            }
+            else
+            {
+                _dashboardPage.GetTitle().Should().Be(expected);
+            }
+        }
+
+        public void Dispose()
+        {
+            _driver.Quit();
+        }
     }
 }

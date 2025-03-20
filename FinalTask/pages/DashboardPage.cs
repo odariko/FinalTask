@@ -1,16 +1,19 @@
 ﻿using OpenQA.Selenium;
 
-public class DashboardPage
+namespace FinalTask.pages
 {
-    private IWebDriver _driver;
-
-    public DashboardPage(IWebDriver driver)
+    public class DashboardPage
     {
-        _driver = driver;
-    }
+        private readonly IWebDriver _driver;
 
-    public string GetTitle()
-    {
-        return _driver.Title;
+        public DashboardPage(IWebDriver driver)
+        {
+            _driver = driver;
+        }
+
+        public string GetTitle()
+        {
+            return _driver.Title;
+        }
     }
 }

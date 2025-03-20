@@ -3,25 +3,28 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using System;
 
-public class WebDriverFactory
+namespace FinalTask.tests
 {
-    public static IWebDriver CreateDriver(string browser)
+    public static class WebDriverFactory
     {
-        IWebDriver driver;
-
-        switch (browser.ToLower())
+        public static IWebDriver CreateDriver(string browser)
         {
-            case "chrome":
-                driver = new ChromeDriver();
-                break;
-            case "firefox":
-                driver = new FirefoxDriver();
-                break;
-            default:
-                throw new NotImplementedException("Browser not supported");
-        }
+            IWebDriver driver;
 
-        driver.Manage().Window.Maximize();
-        return driver;
+            switch (browser.ToLower())
+            {
+                case "chrome":
+                    driver = new ChromeDriver();
+                    break;
+                case "firefox":
+                    driver = new FirefoxDriver();
+                    break;
+                default:
+                    throw new NotImplementedException("Browser not supported");
+            }
+
+            driver.Manage().Window.Maximize();
+            return driver;
+        }
     }
 }
