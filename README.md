@@ -29,4 +29,4 @@ Test Runner: xUnit;
 [Optional] Patterns: 1) Factory method; 2) Abstract Factory; 3) Chaine of responsibility;  
 [Optional] Test automation approach: BDD;  
 Assertions: Fluent Assertion;  
-[Optional] Loggers: SeriLog.  ы
+[Optional] Loggers: SeriLog.  
