@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace FinalTask.pages
+namespace FinalTaskOdariko.Pages
 {
     public class DashboardPage
     {

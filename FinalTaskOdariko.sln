@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalTaskOdariko", "FinalTaskOdariko\FinalTaskOdariko.csproj", "{A9D89E2A-2F37-405D-8DAC-BA80950401BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalTaskOdariko.Tests", "FinalTaskOdariko.Tests\FinalTaskOdariko.Tests.csproj", "{6A2E641B-80C4-4867-A517-A519706F68A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9D89E2A-2F37-405D-8DAC-BA80950401BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9D89E2A-2F37-405D-8DAC-BA80950401BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9D89E2A-2F37-405D-8DAC-BA80950401BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9D89E2A-2F37-405D-8DAC-BA80950401BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A2E641B-80C4-4867-A517-A519706F68A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A2E641B-80C4-4867-A517-A519706F68A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A2E641B-80C4-4867-A517-A519706F68A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A2E641B-80C4-4867-A517-A519706F68A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8923AF89-E053-4809-BC8C-3FCDECB6131E}
+	EndGlobalSection
+EndGlobal

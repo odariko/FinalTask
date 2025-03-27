@@ -1,8 +1,6 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using System;
 
-namespace FinalTask.pages
+namespace FinalTaskOdariko.Pages
 {
     public class LoginPage
     {
