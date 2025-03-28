@@ -2,18 +2,12 @@
 
 namespace FinalTaskOdariko.Pages
 {
-    public class LoginPage
+    public class LoginPage(IWebDriver driver) : BasePage(driver)
     {
-        private readonly IWebDriver _driver;
-        private IWebElement UsernameField => _driver.FindElement(By.CssSelector("#user-name"));
-        private IWebElement PasswordField => _driver.FindElement(By.CssSelector("#password"));
-        private IWebElement LoginButton => _driver.FindElement(By.CssSelector("#login-button"));
-        private IWebElement ErrorMessage => _driver.FindElement(By.CssSelector(".error-message-container"));
-
-        public LoginPage(IWebDriver driver)
-        {
-            _driver = driver;
-        }
+        private IWebElement UsernameField => WaitForElement(By.CssSelector("#user-name"));
+        private IWebElement PasswordField => WaitForElement(By.CssSelector("#password"));
+        private IWebElement LoginButton => WaitForElement(By.CssSelector("#login-button"));
+        private IWebElement ErrorMessage => WaitForElement(By.CssSelector(".error-message-container"));
 
         public void EnterCredentials(string username, string password)
         {
@@ -21,6 +15,34 @@ namespace FinalTaskOdariko.Pages
             UsernameField.SendKeys(username);
             PasswordField.Clear();
             PasswordField.SendKeys(password);
+        }
+
+        public void ClearCredentials()
+        {
+            UsernameField.Clear();
+            PasswordField.Clear();
+        }
+
+        public void EnterUsername(string username)
+        {
+            UsernameField.Clear();
+            UsernameField.SendKeys(username);
+        }
+
+        public void EnterPassword(string password)
+        {
+            PasswordField.Clear();
+            PasswordField.SendKeys(password);
+        }
+
+        public void ClearPassword()
+        {
+            PasswordField.Clear();
+        }
+
+        public void ClearUsername()
+        {
+            UsernameField.Clear();
         }
 
         public void ClickLogin()

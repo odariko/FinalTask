@@ -1,42 +1,135 @@
 ﻿using FinalTaskOdariko.Factories;
 using FinalTaskOdariko.Pages;
-using FinalTaskOdariko.Tests.Utilities;
 using OpenQA.Selenium;
 using Xunit;
 using FluentAssertions;
+using Serilog;
+
+[assembly: CollectionBehavior(DisableTestParallelization = false, MaxParallelThreads = 16)]
 
 namespace FinalTaskOdariko.Tests.Pages
 {
     public class LoginPageTest
     {
-        [Theory]
-        [MemberData(nameof(TestDataProvider.TestData), MemberType = typeof(TestDataProvider))]
-        public void TestLoginInChrome(string username, string password, string expected)
-        {
-            TestWithDriver("chrome", username, password, expected);
-        }
+        private readonly ILogger _logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console()
+            .WriteTo.File("logs/test-login.log", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
 
         [Theory]
-        [MemberData(nameof(TestDataProvider.TestData), MemberType = typeof(TestDataProvider))]
-        public void TestLoginInFirefox(string username, string password, string expected)
+        [InlineData("chrome")]
+        [InlineData("firefox")]
+        public void ShouldShowUsernameRequiredError_WhenCredentialsAreEmpty(string browser)
         {
-            TestWithDriver("firefox", username, password, expected);
-        }
-
-        private void TestWithDriver(string driver, string username, string password, string expected)
-        {
-            using IWebDriver browserDriver = WebDriverFactory.CreateDriver(driver);
-            browserDriver.Navigate().GoToUrl("https://www.saucedemo.com/");
-            LoginPage loginPage = new(browserDriver);
-
-            loginPage.EnterCredentials(username, password);
-            loginPage.ClickLogin();
-            Thread.Sleep(2000);
-
-            if (expected.Contains("required"))
+            try
             {
-                string errorMessage = loginPage.GetErrorMessage();
-                errorMessage.Should().NotBeNullOrEmpty().And.Contain(expected);
+                _logger.Information($"Starting CredentialsAreEmpty test for {browser}");
+                // Arrange
+                using IWebDriver driver = WebDriverFactory.CreateDriver(browser);
+                driver.Navigate().GoToUrl("https://www.saucedemo.com/");
+                LoginPage loginPage = new(driver);
+                // Act
+                loginPage.EnterCredentials("test", "test");
+                loginPage.ClearCredentials();
+                loginPage.ClickLogin();
+                // Assert
+                loginPage.GetErrorMessage().Should().Contain("Username is required");
+                _logger.Information($"CredentialsAreEmpty test for {browser} completed");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"CredentialsAreEmpty test for {browser} failed");
+            }
+        }
+
+        [Theory]
+        [InlineData("chrome")]
+        [InlineData("firefox")]
+        public void ShouldShowUsernameRequiredError_WhenUsernameIsEmpty(string browser)
+        {
+            try
+            {
+                _logger.Information($"Starting UsernameIsEmpty test for {browser}");
+
+                // Arrange
+                using IWebDriver driver = WebDriverFactory.CreateDriver(browser);
+                driver.Navigate().GoToUrl("https://www.saucedemo.com/");
+                LoginPage loginPage = new(driver);
+
+                // Act
+                loginPage.EnterCredentials("", "test");
+                loginPage.ClearUsername();
+                loginPage.ClickLogin();
+
+                // Assert
+                loginPage.GetErrorMessage().Should().Contain("Username is required");
+
+                _logger.Information($"UsernameIsEmpty test for {browser} completed");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"UsernameIsEmpty test for {browser} failed");
+            }
+        }
+
+        [Theory]
+        [InlineData("chrome")]
+        [InlineData("firefox")]
+        public void ShouldShowPasswordRequiredError_WhenPasswordIsEmpty(string browser)
+        {
+            try
+            {
+                _logger.Information($"Starting PasswordIsEmpty test for {browser}");
+
+                // Arrange
+                using IWebDriver driver = WebDriverFactory.CreateDriver(browser);
+                driver.Navigate().GoToUrl("https://www.saucedemo.com/");
+                var loginPage = new LoginPage(driver);
+
+                // Act
+                loginPage.EnterCredentials("standard_user", "test");
+                loginPage.ClearPassword();
+                loginPage.ClickLogin();
+
+                // Assert
+                loginPage.GetErrorMessage().Should().Contain("Password is required");
+
+                _logger.Information($"PasswordIsEmpty test for {browser} completed");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"PasswordIsEmpty test for {browser} failed");
+            }
+        }
+
+        [Theory]
+        [InlineData("chrome")]
+        [InlineData("firefox")]
+        public void ShouldNavigateToDashboard_WhenCredentialsAreValid(string browser)
+        {
+            try
+            {
+                _logger.Information($"Starting CredentialsAreValid test for {browser}");
+
+                // Arrange
+                using IWebDriver driver = WebDriverFactory.CreateDriver(browser);
+                driver.Navigate().GoToUrl("https://www.saucedemo.com/");
+                LoginPage loginPage = new(driver);
+
+                // Act
+                loginPage.EnterCredentials("standard_user", "secret_sauce");
+                loginPage.ClickLogin();
+                DashboardPage dashboardPage = new(driver);
+
+                // Assert
+                dashboardPage.GetTitle().Should().Be("Swag Labs");
+
+                _logger.Information($"CredentialsAreValid test for {browser} completed");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"CredentialsAreValid test for {browser} failed");
             }
         }
     }

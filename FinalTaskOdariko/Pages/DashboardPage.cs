@@ -2,14 +2,9 @@
 
 namespace FinalTaskOdariko.Pages
 {
-    public class DashboardPage
+    public class DashboardPage(IWebDriver driver) : BasePage(driver)
     {
-        private readonly IWebDriver _driver;
-
-        public DashboardPage(IWebDriver driver)
-        {
-            _driver = driver;
-        }
+        private readonly IWebDriver _driver = driver;
 
         public string GetTitle()
         {
